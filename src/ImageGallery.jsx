@@ -343,11 +343,11 @@ export default class ImageGallery extends React.Component {
   }
 
   setScrollDirection(dir) {
-    const { scrollingUpDown, scrollingLeftRight } = this.state;
+    const { scrollingLeftRight } = this.state;
 
-    if (!scrollingUpDown && !scrollingLeftRight) {
+    if (!scrollingLeftRight) {
       if (dir === LEFT || dir === RIGHT) {
-        this.setState({ scrollingLeftRight: true });
+        this.setState({ scrollingLeftRight: true, scrollingUpDown: false });
       } else {
         this.setState({ scrollingUpDown: true });
       }
