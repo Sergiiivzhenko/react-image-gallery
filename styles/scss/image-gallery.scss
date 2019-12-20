@@ -209,7 +209,7 @@ $ig-transparent: rgba(0, 0, 0, 0) !default;
 }
 
 .image-gallery-slide {
-  background: $ig-white;
+  background: transparent;
   left: 0;
   position: absolute;
   top: 0;
