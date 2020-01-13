@@ -912,13 +912,47 @@ export default class ImageGallery extends React.Component {
   }
 
   slidePrevious(event) {
-    const { currentIndex } = this.state;
-    this.slideToIndex(currentIndex - 1, event);
+    const { currentIndex, offsetPercentage, isTransitioning } = this.state;
+    const { items } = this.props;
+    const nextIndex = currentIndex - 1;
+
+    if (isTransitioning) return;
+
+    if (items.length === 2) {
+      /*
+        When there are only 2 slides fake a tiny swipe to get the slides
+        on the correct side for transitioning
+      */
+      this.setState({
+        offsetPercentage: offsetPercentage + 0.001, // this will reset once index changes
+        slideStyle: { transition: 'none' }, // move the slide over instantly
+      }, () => {
+        // add 25ms timeout to avoid delay in moving slides over
+        window.setTimeout(() => this.slideToIndex(nextIndex, event), 25);
+      });
+    } else {
+      this.slideToIndex(nextIndex, event);
+    }
   }
 
   slideNext(event) {
-    const { currentIndex } = this.state;
-    this.slideToIndex(currentIndex + 1, event);
+    const { currentIndex, offsetPercentage, isTransitioning } = this.state;
+    const { items } = this.props;
+    const nextIndex = currentIndex + 1;
+
+    if (isTransitioning) return;
+
+    if (items.length === 2) {
+      // same as above for 2 slides
+      this.setState({
+        offsetPercentage: offsetPercentage - 0.001,
+        slideStyle: { transition: 'none' },
+      }, () => {
+        window.setTimeout(() => this.slideToIndex(nextIndex, event), 25);
+      });
+    } else {
+      this.slideToIndex(nextIndex, event);
+    }
   }
 
   handleThumbnailMouseOver(event, index) {
