@@ -677,15 +677,22 @@ export default class ImageGallery extends React.Component {
       if (Math.abs(offsetPercentage) >= 100) {
         offsetPercentage = 100;
       }
+      if(Math.abs(offsetPercentage) < 15){
+        offsetPercentage = 0;
+      }
 
       const swipingTransition = {
         transition: `transform ${swipingTransitionDuration}ms ease-out`,
       };
 
-      this.setState({
-        offsetPercentage: side * offsetPercentage,
-        slideStyle: swipingTransition,
-      });
+      if(dir === "Up" || dir === "Down"  ){
+        this.setState({ offsetPercentage: 0 });
+      }else{
+        this.setState({
+          offsetPercentage: side * offsetPercentage,
+          slideStyle: swipingTransition
+        });
+      }
     } else {
       // don't move the slide
       this.setState({ offsetPercentage: 0 });
